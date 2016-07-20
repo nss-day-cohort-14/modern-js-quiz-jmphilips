@@ -13,7 +13,7 @@ module.exports = attacker;
 var Robot = require('./Robots');
 
 var Cops = function () {
-	this.health = 90
+	this.healthRange = 90
 	this.class = "Cop";
 };
 
@@ -26,7 +26,7 @@ module.exports = Cops;
 var Robot = require('./Robots');
 
 var Droids = function () {
-	this.health = 110
+	this.healthRange = 110
 	this.class = "Droids";
 };
 
@@ -39,7 +39,7 @@ module.exports = Droids;
 var Robot = require('./Robots');
 
 var Drones = function () {
-	this.health = 70
+	this.healthRange = 70
 	this.class = "Drones";
 };
 
@@ -56,10 +56,19 @@ var Robot = function () {
 	this.attackRange = null;
 	this.defense = null;
 	this.name = null;
+	this.healthRange = null;
 };
 
 module.exports = Robot;
 },{}],6:[function(require,module,exports){
+"use strict"
+
+let Sentence = (attacker, defender) => {
+	$('<p></p>').text(attacker.name + " attacked " + defender.name).appendTo($("#battlefield"))
+};
+
+module.exports = Sentence;
+},{}],7:[function(require,module,exports){
 "use strict"
 
 let Template = (character, card) => {
@@ -68,10 +77,19 @@ let Template = (character, card) => {
 	$('<p></p>').text("Defense: " + character.defense).appendTo(card);
 	$('<p></p>').text("Class: " + character.class).appendTo(card);
 	$('<p></p>').text("Type: " + character.type).appendTo(card);
+	$('<p></p>').text("Health: " + character.health).appendTo(card);
 };
 
 module.exports = Template;
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+"use strict";
+
+let Winner = (attacker) => {
+	$('<h1></h1>').text(attacker.name + " Wins").prependTo($("#battlefield"));
+};
+
+module.exports = Winner;
+},{}],9:[function(require,module,exports){
 "use strict";
 
 $(document).ready(function() {
@@ -87,7 +105,9 @@ const Wall = require('./droids/Wall');
 const Walking = require('./drones/Walking');
 const Flying = require('./drones/Flying');
 const Template = require('./Template.js');
-const attacker = require('./Attack.js')
+const attacker = require('./Attack.js');
+const Sentence = require('./Sentence');
+const Winner = require('./Winner');
 
 let robotOne,
 	robotTwo;	 
@@ -142,8 +162,31 @@ $('#maker').click(() => {
 
 $('#nextRound').click(() => {
 	if (count % 2 === 0) {
-		console.log(attacker(robotOne, robotTwo))
-	} else {console.log(attacker(robotTwo, robotOne))}
+		attacker(robotOne, robotTwo);
+		Sentence(robotOne, robotTwo);
+		$("#robotOneCard").empty();
+		$("#robotTwoCard").empty();
+		if (robotTwo.health <= 0) {
+			robotTwo.health = 0;
+			Winner(robotOne);
+			$('#button-div').hide();
+		};
+		Template(robotOne, $('#robotOneCard'));
+		Template(robotTwo, $('#robotTwoCard'));
+	} else {
+		attacker(robotTwo, robotOne);
+		Sentence(robotTwo, robotOne);
+		$("#robotOneCard").empty();
+		$("#robotTwoCard").empty();
+		console.log("Ok")
+		if (robotOne.health <= 0) {
+			robotOne.health = 0;
+			Winner(robotTwo);
+			$('#button-div').hide();
+		}
+		Template(robotOne, $('#robotOneCard'));
+		Template(robotTwo, $('#robotTwoCard'));
+	};
 	count++;
 });
 
@@ -151,7 +194,7 @@ $(document).ready(function() {
 	$('select').material_select();
 });
             
-},{"./Attack.js":1,"./Robots":5,"./Template.js":6,"./cops/Robocop":8,"./cops/Terminate":9,"./droids/R2":10,"./droids/Wall":11,"./drones/Flying":12,"./drones/Walking":13}],8:[function(require,module,exports){
+},{"./Attack.js":1,"./Robots":5,"./Sentence":6,"./Template.js":7,"./Winner":8,"./cops/Robocop":10,"./cops/Terminate":11,"./droids/R2":12,"./droids/Wall":13,"./drones/Flying":14,"./drones/Walking":15}],10:[function(require,module,exports){
 "use strict";
 
 var Cops = require('../Cops');
@@ -162,13 +205,14 @@ var Robocop = function (name) {
 	this.defense = 7;
 	this.type = "Robocop"
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
+	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
 
 Robocop.prototype = new Cops();
 
 module.exports = Robocop;
 
-},{"../Cops":2}],9:[function(require,module,exports){
+},{"../Cops":2}],11:[function(require,module,exports){
 "use strict";
 
 var Cops = require('../Cops');
@@ -179,12 +223,13 @@ var Terminator = function (name) {
 	this.defense = 6;
 	this.type = "Terminator"
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
+	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
 
 Terminator.prototype = new Cops();
 
 module.exports = Terminator;
-},{"../Cops":2}],10:[function(require,module,exports){
+},{"../Cops":2}],12:[function(require,module,exports){
 "use strict";
 
 var Droids = require('../Droids');
@@ -195,12 +240,13 @@ var R2 = function (name) {
 	this.defense = 7;
 	this.type = "R2";
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
+	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
 
 R2.prototype = new Droids();
 
 module.exports = R2;
-},{"../Droids":3}],11:[function(require,module,exports){
+},{"../Droids":3}],13:[function(require,module,exports){
 "use strict";
 
 var Droids = require('../Droids');
@@ -210,13 +256,14 @@ var Wall = function (name) {
 	this.attackRange = 7;
 	this.defense = 8;
 	this.type = "Wall";
-	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4))
+	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
+	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
 
 Wall.prototype = new Droids();
 
 module.exports = Wall;
-},{"../Droids":3}],12:[function(require,module,exports){
+},{"../Droids":3}],14:[function(require,module,exports){
 "use strict";
 
 var Drones = require('../Drones');
@@ -227,12 +274,13 @@ var Flying = function (name) {
 	this.defense = 2;
 	this.type = "Flying";
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
+	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
 
 Flying.prototype = new Drones();
 
 module.exports = Flying;
-},{"../Drones":4}],13:[function(require,module,exports){
+},{"../Drones":4}],15:[function(require,module,exports){
 "use strict";
 
 var Drones = require('../Drones');
@@ -243,12 +291,13 @@ var Walking = function (name) {
 	this.defense = 0;
 	this.type = "Walking";
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
+	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
 
 Walking.prototype = new Drones();
 
 module.exports = Walking;
-},{"../Drones":4}]},{},[7])
+},{"../Drones":4}]},{},[9])
 
 
 //# sourceMappingURL=bundle.js.map

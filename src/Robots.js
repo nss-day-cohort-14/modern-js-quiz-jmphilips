@@ -7,6 +7,7 @@ var Robot = function () {
 	this.attackRange = null;
 	this.defense = null;
 	this.name = null;
+	this.healthRange = null;
 };
 
 module.exports = Robot;

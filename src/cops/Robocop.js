@@ -8,6 +8,7 @@ var Robocop = function (name) {
 	this.defense = 7;
 	this.type = "Robocop"
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
+	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
 
 Robocop.prototype = new Cops();

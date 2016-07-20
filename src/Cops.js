@@ -3,7 +3,7 @@
 var Robot = require('./Robots');
 
 var Cops = function () {
-	this.health = 90
+	this.healthRange = 90
 	this.class = "Cop";
 };
 

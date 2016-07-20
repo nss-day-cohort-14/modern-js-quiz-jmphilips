@@ -6,6 +6,7 @@ let Template = (character, card) => {
 	$('<p></p>').text("Defense: " + character.defense).appendTo(card);
 	$('<p></p>').text("Class: " + character.class).appendTo(card);
 	$('<p></p>').text("Type: " + character.type).appendTo(card);
+	$('<p></p>').text("Health: " + character.health).appendTo(card);
 };
 
 module.exports = Template;

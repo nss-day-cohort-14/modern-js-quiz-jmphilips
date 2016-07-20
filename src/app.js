@@ -14,7 +14,8 @@ const Walking = require('./drones/Walking');
 const Flying = require('./drones/Flying');
 const Template = require('./Template.js');
 const attacker = require('./Attack.js');
-const Sentence = require('./Sentence')
+const Sentence = require('./Sentence');
+const Winner = require('./Winner');
 
 let robotOne,
 	robotTwo;	 
@@ -69,11 +70,31 @@ $('#maker').click(() => {
 
 $('#nextRound').click(() => {
 	if (count % 2 === 0) {
+		attacker(robotOne, robotTwo);
 		Sentence(robotOne, robotTwo);
-		console.log(attacker(robotOne, robotTwo))
+		$("#robotOneCard").empty();
+		$("#robotTwoCard").empty();
+		if (robotTwo.health <= 0) {
+			robotTwo.health = 0;
+			Winner(robotOne);
+			$('#button-div').hide();
+		};
+		Template(robotOne, $('#robotOneCard'));
+		Template(robotTwo, $('#robotTwoCard'));
 	} else {
+		attacker(robotTwo, robotOne);
 		Sentence(robotTwo, robotOne);
-		console.log(attacker(robotTwo, robotOne))}
+		$("#robotOneCard").empty();
+		$("#robotTwoCard").empty();
+		console.log("Ok")
+		if (robotOne.health <= 0) {
+			robotOne.health = 0;
+			Winner(robotTwo);
+			$('#button-div').hide();
+		}
+		Template(robotOne, $('#robotOneCard'));
+		Template(robotTwo, $('#robotTwoCard'));
+	};
 	count++;
 });
 
