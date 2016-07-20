@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="node_modules/materialize-css/bin/materialize.css">
+	<link rel="stylesheet" type="text/css" href="quiz.css">
+</head>
+<body class="cyan lighten-1">
+	<div class="container" id="outputEl">
+	<h1>BattleBotz</h1>
+		<div class="row" id="main-banner">
+			<div class="col s5  cyan darken-2 center-align container">
+				<input type="text" id="robotOneName" placeholder="Robot One Name"/>
+				<div class="input-field">
+					<select id="robotOneType">
+						<option value="" disabled selected>Please choose your Robot type</option>
+						<optgroup label="Drones">
+							<option value="Walking">Walking Drone</option>
+							<option value="Flying">Flying Drone</option>
+						</optgroup>		
+						<optgroup label="Cops">
+							<option value="Terminator">Terminator</option>
+							<option value="Robocop">Robocop</option>
+						</optgroup>
+						<optgroup label="Droids">
+							<option value="R2">R2 Droid</option>
+							<option value="Wall">Wall-E Droid</option>
+						</optgroup>
+					</select>
+				</div>
+			</div>
+
+			<div class="col s5  cyan darken-3 center-align container">	
+				<input type="text" id="robotTwoName" placeholder="Robot Two Name"/>
+				<div class="input-field">
+					<select id="robotTwoType">
+						<option value="" disabled selected>Please choose your Robot type</option>
+						<optgroup label="Drones">
+							<option value="Walking">Walking Drone</option>
+							<option value="Flying">Flying Drone</option>
+						</optgroup>		
+						<optgroup label="Cops">
+							<option value="Terminator">Terminator</option>
+							<option value="Robocop">Robocop</option>
+						</optgroup>
+						<optgroup label="Droids">
+							<option value="R2">R2 Droid</option>
+							<option value="Wall">Wall-E Droid</option>
+						</optgroup>
+					</select>
+				</div>
+			</div>
+		</div>
+			<div id="card-holder" class="row">
+				<button type="button" id="maker">Run</button>
+				<div id="robotOneCard" class="col s5  cyan darken-2 center-align container"></div>
+				<div id="robotTwoCard" class="col s5  cyan darken-3 center-align container"></div>
+				<div id="button-div" class="col s10 center-align container">
+					<button type="button" id="nextRound">Next Round</button>
+				</div>
+			</div>
+			<div id="battlefield">
+				
+			</div>
+	  	</div>
+	</div>
+	<script src="node_modules/jquery/dist/jquery.min.js"></script>
+	<script src="node_modules/materialize-css/bin/materialize.js"></script>
+	<script src="dist/bundle.js"></script>
+</body>
+</html>
