@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict"
+"use strict";
 
 var attacker = (attacked, defended) => {
 	defended.health -= attacked.attack - defended.defense;
@@ -13,7 +13,7 @@ module.exports = attacker;
 var Robot = require('./Robots');
 
 var Cops = function () {
-	this.healthRange = 90
+	this.healthRange = 90;
 	this.class = "Cop";
 };
 
@@ -26,7 +26,7 @@ module.exports = Cops;
 var Robot = require('./Robots');
 
 var Droids = function () {
-	this.healthRange = 110
+	this.healthRange = 110;
 	this.class = "Droids";
 };
 
@@ -39,7 +39,7 @@ module.exports = Droids;
 var Robot = require('./Robots');
 
 var Drones = function () {
-	this.healthRange = 70
+	this.healthRange = 70;
 	this.class = "Drones";
 };
 
@@ -61,15 +61,15 @@ var Robot = function () {
 
 module.exports = Robot;
 },{}],6:[function(require,module,exports){
-"use strict"
+"use strict";
 
 let Sentence = (attacker, defender) => {
-	$('<p></p>').text(attacker.name + " attacked " + defender.name).appendTo($("#battlefield"))
+	$('<p></p>').text(attacker.name + " attacked " + defender.name).appendTo($("#battlefield"));
 };
 
 module.exports = Sentence;
 },{}],7:[function(require,module,exports){
-"use strict"
+"use strict";
 
 let Template = (character, card) => {
 	$('<h3></h3>').text("Name: " + character.name).appendTo(card);
@@ -93,7 +93,7 @@ module.exports = Winner;
 "use strict";
 
 $(document).ready(function() {
-	$('#button-div').hide()
+	$('#button-div').hide();
 });
 
 
@@ -119,45 +119,50 @@ var filterRobot = (selector, jqID) => {
 
 	if (selector === "Robocop") {
 		currentRobot = new Robocop(jqID);
-	};
+	}
 
 	if (selector === "Terminator") {
 		currentRobot = new Terminator(jqID);
-	};
+	}
 
 	if (selector === "R2") {
 		currentRobot = new R2(jqID);
-	};
+	}
 
 	if (selector === "Wall") {
 		currentRobot = new Wall(jqID);
-	};
+	}
 
 	if (selector === "Walking") {
 		currentRobot = new Walking(jqID);
-	};
+	}
 
 	if (selector === "Flying") {
 		currentRobot = new Flying(jqID);
-	};
+	}
 
-	return currentRobot
+	return currentRobot;
 };
 
-$('#robotOneType').change(() => {
-	robotOne = filterRobot($("#robotOneType").val(), $("#robotOneName").val());
-});
-
-$('#robotTwoType').change(() => {
-	robotTwo = filterRobot($("#robotTwoType").val(), $("#robotTwoName").val());
-});
 
 $('#maker').click(() => {
-	Template(robotOne, $('#robotOneCard'));
-	Template(robotTwo, $('#robotTwoCard'));
-	$("#maker").hide();
-	$("#main-banner").hide();
-	$('#button-div').show()
+
+	if 	(	$('#robotOneName').val() === ""   ||
+			$('#robotTwoName').val() === ""   ||
+			$('#robotOneType').val() === null ||
+			$('#robotTwoType').val() === null ){
+
+			window.alert("Please fill in all of the blanks");
+
+	} else {
+		robotOne = filterRobot($("#robotOneType").val(), $("#robotOneName").val());
+		robotTwo = filterRobot($("#robotTwoType").val(), $("#robotTwoName").val());
+		Template(robotOne, $('#robotOneCard'));
+		Template(robotTwo, $('#robotTwoCard'));
+		$("#maker").hide();
+		$("#main-banner").hide();
+		$('#button-div').show();
+	}
 });
 
 $('#nextRound').click(() => {
@@ -170,7 +175,7 @@ $('#nextRound').click(() => {
 			robotTwo.health = 0;
 			Winner(robotOne);
 			$('#button-div').hide();
-		};
+		}
 		Template(robotOne, $('#robotOneCard'));
 		Template(robotTwo, $('#robotTwoCard'));
 	} else {
@@ -178,7 +183,6 @@ $('#nextRound').click(() => {
 		Sentence(robotTwo, robotOne);
 		$("#robotOneCard").empty();
 		$("#robotTwoCard").empty();
-		console.log("Ok")
 		if (robotOne.health <= 0) {
 			robotOne.health = 0;
 			Winner(robotTwo);
@@ -186,7 +190,7 @@ $('#nextRound').click(() => {
 		}
 		Template(robotOne, $('#robotOneCard'));
 		Template(robotTwo, $('#robotTwoCard'));
-	};
+	}
 	count++;
 });
 
@@ -203,7 +207,7 @@ var Robocop = function (name) {
 	this.name = name;
 	this.attackRange = 11;
 	this.defense = 7;
-	this.type = "Robocop"
+	this.type = "Robocop";
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
 	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };
@@ -221,7 +225,7 @@ var Terminator = function (name) {
 	this.name = name;
 	this.attackRange = 12;
 	this.defense = 6;
-	this.type = "Terminator"
+	this.type = "Terminator";
 	this.attack = (this.attackRange) + (Math.floor(Math.random() * 4));
 	this.health = this.healthRange + (Math.floor(Math.random() * 30));
 };

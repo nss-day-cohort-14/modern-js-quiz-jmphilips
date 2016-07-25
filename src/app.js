@@ -1,7 +1,7 @@
 "use strict";
 
 $(document).ready(function() {
-	$('#button-div').hide()
+	$('#button-div').hide();
 });
 
 
@@ -27,45 +27,50 @@ var filterRobot = (selector, jqID) => {
 
 	if (selector === "Robocop") {
 		currentRobot = new Robocop(jqID);
-	};
+	}
 
 	if (selector === "Terminator") {
 		currentRobot = new Terminator(jqID);
-	};
+	}
 
 	if (selector === "R2") {
 		currentRobot = new R2(jqID);
-	};
+	}
 
 	if (selector === "Wall") {
 		currentRobot = new Wall(jqID);
-	};
+	}
 
 	if (selector === "Walking") {
 		currentRobot = new Walking(jqID);
-	};
+	}
 
 	if (selector === "Flying") {
 		currentRobot = new Flying(jqID);
-	};
+	}
 
-	return currentRobot
+	return currentRobot;
 };
 
-$('#robotOneType').change(() => {
-	robotOne = filterRobot($("#robotOneType").val(), $("#robotOneName").val());
-});
-
-$('#robotTwoType').change(() => {
-	robotTwo = filterRobot($("#robotTwoType").val(), $("#robotTwoName").val());
-});
 
 $('#maker').click(() => {
-	Template(robotOne, $('#robotOneCard'));
-	Template(robotTwo, $('#robotTwoCard'));
-	$("#maker").hide();
-	$("#main-banner").hide();
-	$('#button-div').show()
+
+	if 	(	$('#robotOneName').val() === ""   ||
+			$('#robotTwoName').val() === ""   ||
+			$('#robotOneType').val() === null ||
+			$('#robotTwoType').val() === null ){
+
+			window.alert("Please fill in all of the blanks");
+
+	} else {
+		robotOne = filterRobot($("#robotOneType").val(), $("#robotOneName").val());
+		robotTwo = filterRobot($("#robotTwoType").val(), $("#robotTwoName").val());
+		Template(robotOne, $('#robotOneCard'));
+		Template(robotTwo, $('#robotTwoCard'));
+		$("#maker").hide();
+		$("#main-banner").hide();
+		$('#button-div').show();
+	}
 });
 
 $('#nextRound').click(() => {
@@ -78,7 +83,7 @@ $('#nextRound').click(() => {
 			robotTwo.health = 0;
 			Winner(robotOne);
 			$('#button-div').hide();
-		};
+		}
 		Template(robotOne, $('#robotOneCard'));
 		Template(robotTwo, $('#robotTwoCard'));
 	} else {
@@ -86,7 +91,6 @@ $('#nextRound').click(() => {
 		Sentence(robotTwo, robotOne);
 		$("#robotOneCard").empty();
 		$("#robotTwoCard").empty();
-		console.log("Ok")
 		if (robotOne.health <= 0) {
 			robotOne.health = 0;
 			Winner(robotTwo);
@@ -94,7 +98,7 @@ $('#nextRound').click(() => {
 		}
 		Template(robotOne, $('#robotOneCard'));
 		Template(robotTwo, $('#robotTwoCard'));
-	};
+	}
 	count++;
 });
 

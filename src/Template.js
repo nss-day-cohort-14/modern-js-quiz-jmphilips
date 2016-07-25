@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 let Template = (character, card) => {
 	$('<h3></h3>').text("Name: " + character.name).appendTo(card);
